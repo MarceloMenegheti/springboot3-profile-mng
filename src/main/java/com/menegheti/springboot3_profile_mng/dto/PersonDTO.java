@@ -44,6 +44,11 @@ public class PersonDTO {
 	@XmlElement
 	private String userName;
 	
+	@Column("PASSOWORD")
+	@Size(message = "Passoword deve ter exatamente de 8 caracters", min= 8, max=8)
+	@XmlElement
+	private String passoword;
+	
 	@Column("EMAIL")
 	@Email
 	@XmlElement
