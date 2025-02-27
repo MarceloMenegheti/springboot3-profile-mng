@@ -3,7 +3,10 @@ package com.menegheti.springboot3_profile_mng.repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Objects;
 
+import com.menegheti.springboot3_profile_mng.exception.PersonSaveOrUpdateByIdFailedException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -23,16 +26,16 @@ public class PersonCustomRepositoryImpl implements PersonCustomRepository {
             String preparedStatement = "INSERT INTO PERSON(ID, FIRST_NAME, LAST_NAME, USER_NAME, PASSWORD, EMAIL) " +
                     "VALUES(?,?,?,?,?,?)";
             jdbcTemplate.update(preparedStatement, person.getId(), person.getFirstName(), person.getLastName(),
-                    person.getUserName(), person.getPassword(), person.getEmail());
+                    person.getUserName(), person.getPassoword(), person.getEmail());
             if(findById(person.getId())==null){
-                throw new PersonSaveOrUpdateByIdFailedException("Person ID = "+person.getId()+" did not previously exist at the Database but was not inserted !");
+                throw new PersonSaveOrUpdateByIdFailedException("Person ID = " + person.getId() +" did not previously exist at the Database but was not inserted !");
             }
         } else{
             String preparedStatement = "UPDATE PERSON SET FIRST_NAME=?, LAST_NAME=?, USER_NAME=?, PASSWORD=?, EMAIL=? WHERE ID=?";
             jdbcTemplate.update(preparedStatement, person.getFirstName(), person.getLastName(), person.getUserName(),
-                    person.getPassword(), person.getEmail(), person.getId());
+                    person.getPassoword(), person.getEmail(), person.getId());
             if(!Objects.equals(findById(person.getId()),person)){
-                throw new PersonSaveOrUpdateByIdFailedException("Person ID = "+person.getId()+" previously existed at the Database but was not updated !");
+                throw new PersonSaveOrUpdateByIdFailedException("Person ID = " + person.getId() +" previously existed at the Database but was not updated !");
             }
         }
         return findById(person.getId());
@@ -46,7 +49,7 @@ public class PersonCustomRepositoryImpl implements PersonCustomRepository {
             tempPerson.setFirstName(rs.getString(2));
             tempPerson.setLastName(rs.getString(3));
             tempPerson.setUserName(rs.getString(4));
-            tempPerson.setPassword(rs.getString(5));
+            tempPerson.setPassoword(rs.getString(5));
             tempPerson.setEmail(rs.getString(6));
             return tempPerson;
         }

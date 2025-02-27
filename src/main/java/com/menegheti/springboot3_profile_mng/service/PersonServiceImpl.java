@@ -2,6 +2,7 @@ package com.menegheti.springboot3_profile_mng.service;
 
 import java.util.Optional;
 
+import com.menegheti.springboot3_profile_mng.exception.PersonDeleteByIdFailedException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -35,12 +36,12 @@ public class PersonServiceImpl implements PersonService{
 
 	@Override
 	public Person saveOrUpdate(Person person) {
-		return null;
+		return personRepository.saveOrUpdate(person);
 	}
 
 	@Override
 	public boolean deleteByID(Long id) {
-		/*if(personRepository.existsById(id)) {
+		if(personRepository.existsById(id)) {
 			personRepository.deleteById(id);
 			if(personRepository.existsById(id)) {
 				throw new PersonDeleteByIdFailedException("Pessoa ID = " +id+" existe no Banco de Dados mas nao foi deletada! ");
@@ -48,8 +49,7 @@ public class PersonServiceImpl implements PersonService{
 			return true;
 		}else {
 		return false;
-		}*/
-		return false;
+		}
 	}
 
 }
